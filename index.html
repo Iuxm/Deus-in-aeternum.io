@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Deus in Aeternum — a Catholic faith companion. Daily Mass readings, Bible (73 books), prayers, saints, Rosary, Stations of the Cross, Catholic doctrine, and an AI companion rooted in Catholic tradition.">
+    <meta name="theme-color" content="#B8860B">
+    <title>Deus in Aeternum — Catholic Faith Companion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- HEADER with Papal Coat of Arms -->
+    <header role="banner">
+        <div class="logo">
+            <div class="papal-arms-badge" id="header-arms" aria-hidden="true"></div>
+            <div>
+                <div class="logo-text">Deus in Aeternum</div>
+                <div class="logo-sub" lang="la" data-i18n="appSubtitle">Catholic Faith Companion</div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="streak-badge" id="streak-badge" title="Daily Streak">
+                <span id="streak-flame" aria-hidden="true"></span>
+                <span class="streak-number" id="streak-count">1</span>
+            </div>
+            <button class="hdr-btn" type="button" aria-label="Open settings" onclick="openSettings()">
+                <span aria-hidden="true">⚙</span>
+            </button>
+        </div>
+    </header>
+
+    <main id="main-content" role="main">
+
+        <!-- ═══════ HOME (BibleOn-style) ═══════ -->
+        <section class="page active" id="page-home" aria-labelledby="home-title-h" tabindex="-1">
+            <h1 id="home-title-h" class="sr-only">Home</h1>
+
+            <div class="hero-banner reveal">
+                <div class="hero-row">
+                    <div>
+                        <div class="hero-greeting" data-i18n="welcome">Welcome</div>
+                        <div class="hero-name" id="hero-name">Friend</div>
+                    </div>
+                    <div class="hero-arms" id="hero-arms" aria-hidden="true"></div>
+                </div>
+                <div class="hero-verse">
+                    "I am the way, and the truth, and the life. No one comes to the Father except through me."
+                    <div class="hero-verse-ref">✦ John 14:6 · <span data-i18n="verseOfTheDay">Verse of the Day</span> ✦</div>
+                </div>
+            </div>
+
+            <div class="quick-grid">
+                <button type="button" class="quick-card reveal" onclick="navigate('bible')">
+                    <div class="quick-card-icon" id="qc-bible"></div>
+                    <div class="quick-card-title" data-i18n="bible">Bible</div>
+                    <div class="quick-card-sub">73 sacred books</div>
+                </button>
+                <button type="button" class="quick-card reveal" onclick="navigate('prayers')" style="transition-delay:.06s">
+                    <div class="quick-card-icon" id="qc-prayers"></div>
+                    <div class="quick-card-title" data-i18n="prayers">Prayers</div>
+                    <div class="quick-card-sub" data-i18n="traditionalDevotions">Traditional devotions</div>
+                </button>
+                <button type="button" class="quick-card reveal" onclick="navigate('rosary')" style="transition-delay:.12s">
+                    <div class="quick-card-icon" id="qc-rosary"></div>
+                    <div class="quick-card-title" data-i18n="holyRosary">Rosary</div>
+                    <div class="quick-card-sub">20 mysteries</div>
+                </button>
+                <button type="button" class="quick-card reveal" onclick="navigate('saints')" style="transition-delay:.18s">
+                    <div class="quick-card-icon" id="qc-saints"></div>
+                    <div class="quick-card-title" data-i18n="saints">Saints</div>
+                    <div class="quick-card-sub" data-i18n="cloudOfWitnesses">Cloud of witnesses</div>
+                </button>
+            </div>
+
+            <button type="button" class="saint-of-day reveal" id="saint-of-day-card" onclick="navigate('saints')">
+                <div class="saint-of-day-icon" id="saint-of-day-icon"></div>
+                <div>
+                    <div class="saint-of-day-meta">✦ Saint of the Day</div>
+                    <div class="saint-of-day-name" id="saint-of-day-name">Loading…</div>
+                    <div class="saint-of-day-feast" id="saint-of-day-feast"></div>
+                </div>
+            </button>
+
+            <article class="readings-card reveal" aria-labelledby="readings-title">
+                <h2 id="readings-title" class="readings-day-title" data-i18n="todayMassReadings">Today's Mass Readings</h2>
+                <div id="readings-meta" class="readings-meta"></div>
+                <div id="reading-first" class="reading-block"></div>
+                <div id="reading-psalm" class="reading-block"></div>
+                <div id="reading-second" class="reading-block"></div>
+                <div id="reading-gospel" class="reading-block"></div>
+            </article>
+
+            <article class="liturgical-section reveal" aria-labelledby="lit-title">
+                <h2 id="lit-title" class="section-label" style="margin-bottom:14px" data-i18n="liturgicalYear">Liturgical Year</h2>
+                <div class="liturgical-grid">
+                    <div class="liturgical-wheel">
+                        <svg id="liturgical-wheel-svg" viewBox="0 0 130 130" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"></svg>
+                        <div class="wheel-center">
+                            <div id="wheel-cycle" class="wheel-center-cycle">A</div>
+                            <div class="wheel-center-label">YEAR</div>
+                        </div>
+                    </div>
+                    <div class="liturgical-info-stack">
+                        <div class="liturgical-info-row">
+                            <span class="liturgical-info-key" data-i18n="season">Season</span>
+                            <span id="lit-season" class="liturgical-info-val"></span>
+                        </div>
+                        <div class="liturgical-info-row">
+                            <span class="liturgical-info-key" data-i18n="sundayCycle">Sunday</span>
+                            <span id="lit-sunday" class="liturgical-info-val"></span>
+                        </div>
+                        <div class="liturgical-info-row">
+                            <span class="liturgical-info-key" data-i18n="weekdayCycle">Weekday</span>
+                            <span id="lit-weekday" class="liturgical-info-val"></span>
+                        </div>
+                        <div class="liturgical-info-row">
+                            <span class="liturgical-info-key" data-i18n="theme">Theme</span>
+                            <span id="lit-theme" class="liturgical-info-val" style="font-style:italic;font-size:12.5px;line-height:1.4"></span>
+                        </div>
+                    </div>
+                </div>
+            </article>
+        </section>
+
+        <!-- ═══════ BIBLE ═══════ -->
+        <section class="page" id="page-bible" aria-labelledby="bible-title-h" tabindex="-1">
+            <header class="page-header-block">
+                <h1 class="page-title" id="bible-title-h" data-i18n="holyBible">Holy Bible</h1>
+                <p class="page-sub">Catholic Edition · 73 Sacred Books</p>
+            </header>
+            <div class="translation-row" role="group" aria-label="Bible translation">
+                <button type="button" class="trans-pill" aria-pressed="true" onclick="selTrans(this)">RSV-CE</button>
+                <button type="button" class="trans-pill" aria-pressed="false" onclick="selTrans(this)">NAB</button>
+                <button type="button" class="trans-pill" aria-pressed="false" onclick="selTrans(this)">Douay-Rheims</button>
+                <button type="button" class="trans-pill" aria-pressed="false" onclick="selTrans(this)">New Jerusalem</button>
+                <button type="button" class="trans-pill" aria-pressed="false" onclick="selTrans(this)">KJV</button>
+            </div>
+            <div id="bible-list">
+                <h2 class="testament-head">Old Testament · 46 Books</h2>
+                <div class="book-grid" id="ot-grid" role="list"></div>
+                <h2 class="testament-head">New Testament · 27 Books</h2>
+                <div class="book-grid" id="nt-grid" role="list"></div>
+            </div>
+            <div class="bible-reader" id="bible-reader" tabindex="-1" aria-label="Bible reader">
+                <div class="reader-top">
+                    <button type="button" class="btn-outline" onclick="closeBible()">← Books</button>
+                    <h2 class="reader-title" id="reader-title">Genesis</h2>
+                </div>
+                <div class="chapter-scroll" id="ch-scroll" role="tablist" aria-label="Chapters"></div>
+                <div class="verse-content" id="verse-content" aria-live="polite"></div>
+            </div>
+        </section>
+
+        <!-- ═══════ PRAYERS ═══════ -->
+        <section class="page" id="page-prayers" aria-labelledby="prayers-title-h" tabindex="-1">
+            <header class="page-header-block">
+                <h1 class="page-title" id="prayers-title-h" data-i18n="prayers">Prayers</h1>
+                <p class="page-sub" data-i18n="traditionalDevotions">Traditional Catholic Devotions</p>
+            </header>
+            <div id="prayer-container"></div>
+        </section>
+
+        <!-- ═══════ SAINTS ═══════ -->
+        <section class="page" id="page-saints" aria-labelledby="saints-title-h" tabindex="-1">
+            <header class="page-header-block">
+                <h1 class="page-title" id="saints-title-h" data-i18n="saints">Saints</h1>
+                <p class="page-sub" data-i18n="cloudOfWitnesses">A Great Cloud of Witnesses</p>
+            </header>
+            <div class="search-wrap">
+                <label for="saint-search" class="sr-only">Search saints</label>
+                <span class="search-icon" aria-hidden="true">⌕</span>
+                <input id="saint-search" class="saint-search" type="search" placeholder="Search saints by name or patronage…" oninput="filterSaints(this.value)" autocomplete="off">
+            </div>
+            <div id="saints-container" aria-live="polite"></div>
+        </section>
+
+        <!-- ═══════ ROSARY ═══════ -->
+        <section class="page" id="page-rosary" aria-labelledby="rosary-title-h" tabindex="-1">
+            <h1 id="rosary-title-h" class="sr-only">The Holy Rosary</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="rosary-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="holyRosary">The Holy Rosary</div>
+                <div class="devotion-hero-latin" lang="la">Sanctus Rosarius</div>
+            </div>
+            <div id="rosary-day-banner" class="rosary-day-banner reveal">
+                <div class="label" data-i18n="todaysMysteries">Today's Mysteries</div>
+                <div class="name"></div>
+            </div>
+            <div id="mystery-tabs" class="mystery-tabs reveal" role="tablist"></div>
+            <div id="mysteries-container"></div>
+        </section>
+
+        <!-- ═══════ DOCTRINE ═══════ -->
+        <section class="page" id="page-doctrine" aria-labelledby="doctrine-title-h" tabindex="-1">
+            <h1 id="doctrine-title-h" class="sr-only">Catholic Doctrine</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="doctrine-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="catholicDoctrine">Catholic Doctrine</div>
+                <div class="devotion-hero-latin" lang="la">Doctrina Catholica</div>
+            </div>
+            <div class="doctrine-tabs reveal" role="tablist">
+                <button type="button" class="mystery-tab doctrine-tab" data-tab="dogmas" aria-pressed="true" onclick="showDoctrine('dogmas')" data-i18n="dogmas">Dogmas</button>
+                <button type="button" class="mystery-tab doctrine-tab" data-tab="encyclicals" aria-pressed="false" onclick="showDoctrine('encyclicals')" data-i18n="encyclicals">Encyclicals</button>
+                <button type="button" class="mystery-tab doctrine-tab" data-tab="vaticanII" aria-pressed="false" onclick="showDoctrine('vaticanII')" data-i18n="vaticanII">Vatican II</button>
+                <button type="button" class="mystery-tab doctrine-tab" data-tab="core" aria-pressed="false" onclick="showDoctrine('core')" data-i18n="core">Core</button>
+            </div>
+            <div id="doctrine-container"></div>
+        </section>
+
+        <!-- ═══════ STATIONS OF THE CROSS ═══════ -->
+        <section class="page" id="page-stations" aria-labelledby="stations-title-h" tabindex="-1">
+            <h1 id="stations-title-h" class="sr-only">Stations of the Cross</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="stations-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="stationsOfCross">Stations of the Cross</div>
+                <div class="devotion-hero-latin" lang="la">Via Crucis</div>
+            </div>
+            <div id="stations-container"></div>
+        </section>
+
+        <!-- ═══════ EXAMINATION ═══════ -->
+        <section class="page" id="page-examination" aria-labelledby="exam-title-h" tabindex="-1">
+            <h1 id="exam-title-h" class="sr-only">Examination of Conscience</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="exam-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="examinationOfConscience">Examination of Conscience</div>
+                <div class="devotion-hero-latin" lang="la">Examen Conscientiae</div>
+            </div>
+            <div id="examination-container"></div>
+        </section>
+
+        <!-- ═══════ CHAPLETS ═══════ -->
+        <section class="page" id="page-chaplets" aria-labelledby="chaplets-title-h" tabindex="-1">
+            <h1 id="chaplets-title-h" class="sr-only">Chaplets</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="chaplets-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="chaplets">Chaplets</div>
+                <div class="devotion-hero-latin" lang="la">Coronae Devotionis</div>
+            </div>
+            <div id="chaplets-container"></div>
+        </section>
+
+        <!-- ═══════ CREDITS ═══════ -->
+        <section class="page" id="page-credits" aria-labelledby="credits-title-h" tabindex="-1">
+            <h1 id="credits-title-h" class="sr-only">Credits & Sources</h1>
+            <div class="devotion-hero reveal">
+                <div class="devotion-hero-icon" id="credits-hero-icon"></div>
+                <div class="devotion-hero-title" data-i18n="credits">Credits & Sources</div>
+                <div class="devotion-hero-latin" lang="la">Auctores et Fontes</div>
+            </div>
+            <div id="credits-container"></div>
+        </section>
+
+        <!-- ═══════ AI ═══════ -->
+        <section class="page" id="page-ai" aria-labelledby="ai-title-h" tabindex="-1">
+            <h1 id="ai-title-h" class="sr-only">Ask in Faith</h1>
+            <div class="chat-hero">
+                <div class="chat-orb" aria-hidden="true">✝</div>
+                <p class="chat-orb-title" data-i18n="askInFaith">Ask in Faith</p>
+                <p class="chat-orb-sub" data-i18n="yourCatholicCompanion">Your Catholic AI companion — Fides</p>
+                <p class="chat-orb-desc">Ask about Scripture, theology, the saints, the sacraments, or how to pray. Fides draws on Catholic tradition, the Catechism, and the Fathers and Doctors of the Church.</p>
+            </div>
+            <div class="chat-msgs" id="chat-msgs" role="log" aria-live="polite"></div>
+            <div class="sugg-grid" id="sugg-grid" role="group">
+                <button type="button" class="sugg-btn" onclick="askSugg(this)">What are the Seven Sacraments?</button>
+                <button type="button" class="sugg-btn" onclick="askSugg(this)">Who wrote the Gospel of Luke?</button>
+                <button type="button" class="sugg-btn" onclick="askSugg(this)">What is the Immaculate Conception?</button>
+                <button type="button" class="sugg-btn" onclick="askSugg(this)">How do I pray the Rosary?</button>
+            </div>
+            <div class="chat-box">
+                <label for="chat-in" class="sr-only">Type your question</label>
+                <textarea class="chat-textarea" id="chat-in" placeholder="Ask about faith, Scripture, theology, saints…" rows="2"
+                          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendMsg()}"></textarea>
+                <div class="chat-actions">
+                    <span class="chat-hint" aria-hidden="true">Enter to send · Shift+Enter for new line</span>
+                    <button type="button" class="chat-send" id="send-btn" onclick="sendMsg()">
+                        <span data-i18n="send">Send</span> <span aria-hidden="true">✦</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ═══════ MORE ═══════ -->
+        <section class="page" id="page-more" aria-labelledby="more-title-h" tabindex="-1">
+            <header class="page-header-block">
+                <h1 class="page-title" id="more-title-h" data-i18n="more">More</h1>
+                <p class="page-sub">All Features & Resources</p>
+            </header>
+
+            <button type="button" class="more-row reveal" onclick="navigate('rosary')">
+                <span class="more-row-icon" aria-hidden="true">✦</span>
+                <span><span class="more-row-label" data-i18n="holyRosary">Rosary</span><br><span class="more-row-desc">Twenty Mysteries with meditations</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.03s" onclick="navigate('stations')">
+                <span class="more-row-icon" aria-hidden="true">✝</span>
+                <span><span class="more-row-label" data-i18n="stationsOfCross">Stations of the Cross</span><br><span class="more-row-desc">The Way of Sorrows · 14 stations</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.06s" onclick="navigate('chaplets')">
+                <span class="more-row-icon" aria-hidden="true">☩</span>
+                <span><span class="more-row-label" data-i18n="chaplets">Chaplets</span><br><span class="more-row-desc">Divine Mercy · St. Michael · Holy Wounds · St. Jude</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.09s" onclick="navigate('examination')">
+                <span class="more-row-icon" aria-hidden="true">❦</span>
+                <span><span class="more-row-label" data-i18n="examinationOfConscience">Examination of Conscience</span><br><span class="more-row-desc">Prepare for Confession</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.12s" onclick="navigate('doctrine')">
+                <span class="more-row-icon" aria-hidden="true">†</span>
+                <span><span class="more-row-label" data-i18n="catholicDoctrine">Catholic Doctrine</span><br><span class="more-row-desc">Dogmas · Encyclicals · Vatican II</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.15s" onclick="navigate('credits')">
+                <span class="more-row-icon" aria-hidden="true">⚜</span>
+                <span><span class="more-row-label" data-i18n="credits">Credits & Sources</span><br><span class="more-row-desc">Authoritative attributions</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+            <button type="button" class="more-row reveal" style="transition-delay:.18s" onclick="openSettings()">
+                <span class="more-row-icon" aria-hidden="true">⚙</span>
+                <span><span class="more-row-label" data-i18n="settings">Settings</span><br><span class="more-row-desc" data-i18n="language">Language</span></span>
+                <span class="more-row-arrow" aria-hidden="true">›</span>
+            </button>
+
+            <hr class="gold-divider" style="margin-top:28px">
+            <div class="app-footer">
+                <div class="app-footer-cross" aria-hidden="true">✝</div>
+                <div class="app-footer-name">DEUS IN AETERNUM · v2.0</div>
+                <div class="app-footer-sub">God Eternal — Always With You</div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- BOTTOM NAV -->
+    <nav class="bottom-nav" role="navigation" aria-label="Main">
+        <button class="nav-btn" type="button" id="nav-home" aria-current="page" onclick="navigate('home')">
+            <span class="nav-icon" aria-hidden="true">⌂</span><span data-i18n="home">Home</span>
+        </button>
+        <button class="nav-btn" type="button" id="nav-bible" onclick="navigate('bible')">
+            <span class="nav-icon" aria-hidden="true">▯</span><span data-i18n="bible">Bible</span>
+        </button>
+        <button class="nav-btn" type="button" id="nav-prayers" onclick="navigate('prayers')">
+            <span class="nav-icon" aria-hidden="true">☩</span><span data-i18n="prayers">Prayers</span>
+        </button>
+        <button class="nav-btn" type="button" id="nav-saints" onclick="navigate('saints')">
+            <span class="nav-icon" aria-hidden="true">✦</span><span data-i18n="saints">Saints</span>
+        </button>
+        <button class="nav-btn" type="button" id="nav-ai" onclick="navigate('ai')">
+            <span class="nav-icon" aria-hidden="true">✧</span><span data-i18n="ask">Ask</span>
+        </button>
+        <button class="nav-btn" type="button" id="nav-more" onclick="navigate('more')">
+            <span class="nav-icon" aria-hidden="true">≡</span><span data-i18n="more">More</span>
+        </button>
+    </nav>
+
+    <!-- SETTINGS MODAL -->
+    <div class="settings-modal" id="settings-modal" role="dialog" aria-labelledby="settings-modal-title" aria-modal="true">
+        <div class="settings-content">
+            <div class="settings-header">
+                <h2 id="settings-modal-title" class="settings-title" data-i18n="settings">Settings</h2>
+                <button type="button" class="hdr-btn" aria-label="Close settings" onclick="closeSettings()">✕</button>
+            </div>
+
+            <!-- APPEARANCE -->
+            <div class="settings-section">
+                <div class="settings-section-heading">Appearance</div>
+
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <span class="settings-row-name">Dark Mode</span>
+                        <span class="settings-row-desc">Switch to a deep, ink-toned theme</span>
+                    </div>
+                    <button type="button" class="toggle-switch" id="dark-mode-toggle" role="switch" aria-checked="false" aria-label="Toggle dark mode" onclick="toggleDarkMode()"></button>
+                </div>
+
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <span class="settings-row-name">Reduce Animations</span>
+                        <span class="settings-row-desc">Minimize motion &amp; fade effects</span>
+                    </div>
+                    <button type="button" class="toggle-switch" id="reduce-anim-toggle" role="switch" aria-checked="false" aria-label="Toggle reduced animations" onclick="toggleReduceAnimations()"></button>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-row-name">Text Size</div>
+                    <div class="settings-row-desc">Adjust reading text throughout the app</div>
+                    <div class="size-pills" role="group" aria-label="Text size">
+                        <button type="button" class="size-pill" data-size="small" onclick="setFontSize('small')">Small</button>
+                        <button type="button" class="size-pill" data-size="medium" onclick="setFontSize('medium')">Medium</button>
+                        <button type="button" class="size-pill" data-size="large" onclick="setFontSize('large')">Large</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MASS READINGS -->
+            <div class="settings-section">
+                <div class="settings-section-heading">Mass Readings</div>
+
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <span class="settings-row-name">Use My Location</span>
+                        <span class="settings-row-desc">Detect timezone for accurate liturgical day</span>
+                    </div>
+                    <button type="button" class="toggle-switch" id="location-toggle" role="switch" aria-checked="false" aria-label="Use my location" onclick="toggleLocation()"></button>
+                </div>
+
+                <div id="location-status" class="settings-location-status" style="display:none"></div>
+
+                <div class="settings-item">
+                    <div class="settings-row-name">Reading Display</div>
+                    <div class="settings-row-desc">How readings appear on the home screen</div>
+                    <div class="size-pills" role="group" aria-label="Reading display">
+                        <button type="button" class="size-pill" data-layout="full" onclick="setReadingLayout('full')">Full Text</button>
+                        <button type="button" class="size-pill" data-layout="compact" onclick="setReadingLayout('compact')">Compact</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- HOLY ROSARY -->
+            <div class="settings-section">
+                <div class="settings-section-heading">Holy Rosary</div>
+
+                <div class="settings-row">
+                    <div class="settings-row-left">
+                        <span class="settings-row-name">Show Prayer Guide</span>
+                        <span class="settings-row-desc">Display step-by-step instructions above the mysteries</span>
+                    </div>
+                    <button type="button" class="toggle-switch" id="rosary-guide-toggle" role="switch" aria-checked="false" aria-label="Show rosary prayer guide" onclick="toggleRosaryGuide()"></button>
+                </div>
+
+                <div class="settings-item">
+                    <div class="settings-row-name">Default Mysteries</div>
+                    <div class="settings-row-desc">Override the traditional daily schedule</div>
+                    <select class="settings-select" id="rosary-default" aria-label="Default mysteries" onchange="setRosaryDefault(this.value)">
+                        <option value="auto">Follow Daily Schedule</option>
+                        <option value="joyful">Joyful Mysteries · Mysteria Gaudiosa</option>
+                        <option value="sorrowful">Sorrowful Mysteries · Mysteria Dolorosa</option>
+                        <option value="glorious">Glorious Mysteries · Mysteria Gloriosa</option>
+                        <option value="luminous">Luminous Mysteries · Mysteria Luminosa</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- PROFILE -->
+            <div class="settings-section">
+                <div class="settings-section-heading">Profile</div>
+                <label class="settings-label" for="user-name-input">Your Name</label>
+                <input type="text" id="user-name-input" class="settings-input" placeholder="Enter your name…" maxlength="40" autocomplete="given-name">
+            </div>
+
+            <!-- LANGUAGE -->
+            <div class="settings-section">
+                <div class="settings-section-heading" data-i18n="language">Language</div>
+                <div class="lang-grid" id="lang-grid"></div>
+            </div>
+
+            <!-- ABOUT -->
+            <div class="settings-section">
+                <button type="button" class="btn-outline" style="width:100%;margin-bottom:14px" onclick="navigate('credits');closeSettings()">
+                    <span data-i18n="credits">Credits &amp; Sources</span> →
+                </button>
+                <div class="settings-version">
+                    <span style="font-family:'Cinzel',serif;letter-spacing:.1em">DEUS IN AETERNUM · v2.0</span>
+                    <span style="font-style:italic;font-weight:400;color:var(--text-muted)">Deo gratias</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <!-- SCRIPTS -->
+    <script src="js/icons.js"></script>
+    <script src="js/i18n.js"></script>
+    <script src="js/modules/liturgical.js"></script>
+    <script src="js/data/bible.js"></script>
+    <script src="js/data/prayers.js"></script>
+    <script src="js/data/saints.js"></script>
+    <script src="js/data/readings.js"></script>
+    <script src="js/data/rosary.js"></script>
+    <script src="js/data/doctrine.js"></script>
+    <script src="js/data/devotions.js"></script>
+    <script src="js/data/credits.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
